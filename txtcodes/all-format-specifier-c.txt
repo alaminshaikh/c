@@ -1,0 +1,72 @@
+#include <stdio.h>
+
+int main() {
+    // Variable declarations
+    int i = 42;
+    unsigned int u = 123;
+    long l = 9876543210L;
+    long long ll = 123456789012345;
+    float f = 3.14159;
+    double d = 12345.6789;
+    char c = 'A';
+    char str[] = "Hello, World!";
+    void *ptr = &i;
+
+    // Printing different types using various format specifiers
+    printf("Integer (int): %d\n", i);
+    printf("Unsigned Integer (unsigned int): %u\n", u);
+    printf("Long Integer (long): %ld\n", l);
+    printf("Long Long Integer (long long): %lld\n", ll);
+    printf("Hexadecimal (lowercase): %x\n", i);
+    printf("Hexadecimal (uppercase): %X\n", i);
+    printf("Octal: %o\n", i);
+
+    printf("Float (float): %f\n", f);
+    printf("Double (double): %lf\n", d);
+    printf("Scientific Notation (double): %e\n", d);
+    printf("Scientific Notation (double, uppercase): %E\n", d);
+    printf("General Format (double): %g\n", d);
+    printf("General Format (double, uppercase): %G\n", d);
+
+    printf("Character (char): %c\n", c);
+    printf("String (char[]): %s\n", str);
+
+    printf("Pointer address: %p\n", ptr);
+
+    // Special characters
+    printf("Percent sign: %%\n");
+    printf("Newline:\n");
+    printf("Tab\tTab\n");
+    printf("Backspace\bBack\n");
+
+    return 0;
+}
+
+
+
+OUTPUT
+******
+Integer (int): 42
+Unsigned Integer (unsigned int): 123
+Long Integer (long): 9876543210
+Long Long Integer (long long): 123456789012345
+Hexadecimal (lowercase): 2a
+Hexadecimal (uppercase): 2A
+Octal: 52
+Float (float): 3.141590
+Double (double): 12345.678900
+Scientific Notation (double): 1.234568e+04
+Scientific Notation (double, uppercase): 1.234568E+04
+General Format (double): 12345.7
+General Format (double, uppercase): 12345.7
+Character (char): A
+String (char[]): Hello, World!
+Pointer address: 0x7ffee528b2fc
+Percent sign: %
+Newline:
+
+Tab    Tab
+BackspaceBack
+
+
+//%f can be used for double, float and others

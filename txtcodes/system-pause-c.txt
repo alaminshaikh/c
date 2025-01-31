@@ -1,0 +1,19 @@
+#include<stdio.h>
+#include<stdlib.h> // Required for system()
+
+int main() {
+    printf("Hello, World!\n");
+    system("pause"); // Waits for the user to press a key
+    return 0;
+}
+
+
+Platform Dependency: system("pause") works only on Windows. On Linux or macOS, use a different method like getchar() or sleep().
+
+#include<stdio.h>
+
+int main() {
+    printf("Press Enter to continue...");
+    getchar(); // Waits for the user to press Enter
+    return 0;
+}

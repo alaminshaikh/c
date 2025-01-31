@@ -1,0 +1,20 @@
+#include <stdio.h>
+
+int main() {
+    char word[100];
+    char line[100];
+    
+    printf("Enter a word: ");
+    scanf("%s", word);  // Read a word (no spaces)
+    
+    // Clear the buffer to handle leftover newline from scanf
+    getchar();  // This consumes the leftover newline character
+    
+    printf("Enter a line: ");
+    fgets(line, sizeof(line), stdin);  // Read a whole line
+    
+    printf("You entered word: %s\n", word);
+    printf("You entered line: %s\n", line);
+    
+    return 0;
+}

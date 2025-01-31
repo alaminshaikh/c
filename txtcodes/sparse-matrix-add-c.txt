@@ -1,0 +1,115 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct SparseMatrix {
+    int row;      // Row index of the non-zero element
+    int col;      // Column index of the non-zero element
+    int value;    // Value of the non-zero element
+};
+
+void addSparseMatrices(struct SparseMatrix* mat1, int nonZeroCount1,
+                       struct SparseMatrix* mat2, int nonZeroCount2, 
+                       struct SparseMatrix* result, int* nonZeroCountResult) {
+    int i = 0, j = 0, k = 0;
+    
+    // Traverse both matrices and add corresponding elements
+    while (i < nonZeroCount1 && j < nonZeroCount2) {
+        if (mat1[i].row == mat2[j].row && mat1[i].col == mat2[j].col) {
+            // Same position, add the values
+            result[k].row = mat1[i].row;
+            result[k].col = mat1[i].col;
+            result[k].value = mat1[i].value + mat2[j].value;
+            i++; j++; k++;
+        } else if (mat1[i].row < mat2[j].row || 
+                   (mat1[i].row == mat2[j].row && mat1[i].col < mat2[j].col)) {
+            // mat1's element comes first, add it
+            result[k].row = mat1[i].row;
+            result[k].col = mat1[i].col;
+            result[k].value = mat1[i].value;
+            i++; k++;
+        } else {
+            // mat2's element comes first, add it
+            result[k].row = mat2[j].row;
+            result[k].col = mat2[j].col;
+            result[k].value = mat2[j].value;
+            j++; k++;
+        }
+    }
+    
+    // Copy remaining elements from mat1, if any
+    while (i < nonZeroCount1) {
+        result[k].row = mat1[i].row;
+        result[k].col = mat1[i].col;
+        result[k].value = mat1[i].value;
+        i++; k++;
+    }
+    
+    // Copy remaining elements from mat2, if any
+    while (j < nonZeroCount2) {
+        result[k].row = mat2[j].row;
+        result[k].col = mat2[j].col;
+        result[k].value = mat2[j].value;
+        j++; k++;
+    }
+    
+    *nonZeroCountResult = k; // Set the number of non-zero elements in the result
+}
+
+void printSparseMatrix(struct SparseMatrix* mat, int nonZeroCount, int rows, int cols) {
+    int matrix[rows][cols];
+    
+    // Initialize the matrix with 0s
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            matrix[i][j] = 0;
+        }
+    }
+    
+    // Fill in the non-zero elements from the sparse matrix
+    for (int i = 0; i < nonZeroCount; i++) {
+        matrix[mat[i].row][mat[i].col] = mat[i].value;
+    }
+    
+    // Print the full matrix
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    // Example: Adding two 4x4 sparse matrices
+
+    int rows = 4, cols = 4;
+
+    // Sparse Matrix 1 (non-zero elements)
+    struct SparseMatrix mat1[3] = {
+        {0, 0, 5}, // Element at (0, 0) is 5
+        {1, 2, 8}, // Element at (1, 2) is 8
+        {3, 3, 7}  // Element at (3, 3) is 7
+    };
+    int nonZeroCount1 = 3;
+
+    // Sparse Matrix 2 (non-zero elements)
+    struct SparseMatrix mat2[3] = {
+        {0, 0, 3}, // Element at (0, 0) is 3
+        {2, 1, 4}, // Element at (2, 1) is 4
+        {3, 3, 6}  // Element at (3, 3) is 6
+    };
+    int nonZeroCount2 = 3;
+
+    // Resulting sparse matrix
+    struct SparseMatrix result[6]; // Max possible non-zero elements is 6
+    int nonZeroCountResult = 0;
+
+    // Add the two sparse matrices
+    addSparseMatrices(mat1, nonZeroCount1, mat2, nonZeroCount2, result, &nonZeroCountResult);
+
+    // Print the resulting sparse matrix
+    printf("Resulting Sparse Matrix:\n");
+    printSparseMatrix(result, nonZeroCountResult, rows, cols);
+
+    return 0;
+}

@@ -1,0 +1,14 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    // Seed the random number generator
+    srand(time(0));
+
+    // Generate and print one random number
+    int rand_num = rand();
+    printf("Random number: %d\n", rand_num);
+
+    return 0;
+}

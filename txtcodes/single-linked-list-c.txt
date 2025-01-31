@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+int main() {
+    // Step 1: Create nodes
+    struct Node* firstNode = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* secondNode = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* thirdNode = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* fourthNode = (struct Node*)malloc(sizeof(struct Node));
+    
+    // Step 2: Set data and links
+    firstNode->data = 10;
+    firstNode->next = secondNode;
+    
+    secondNode->data = 20;
+    secondNode->next = thirdNode;
+    
+    thirdNode->data = 30;
+    thirdNode->next = fourthNode;
+    
+    fourthNode->data = 40;
+    fourthNode->next = NULL; // Last node points to NULL
+    
+    // Step 3: Print the linked list
+    struct Node* current = firstNode;  // Start from the head node
+    while (current != NULL) {
+        printf("%d -> ", current->data);  // Print data
+        current = current->next;  // Move to the next node
+    }
+    printf("NULL\n");  // End of the list
+    
+    return 0;
+}
