@@ -1,0 +1,117 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a node
+struct Node {
+    int data;
+    struct Node* next;
+    struct Node* prev;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    newNode->prev = NULL;
+    return newNode;
+}
+
+// Function to insert a node at the end of the doubly linked list
+void insertEnd(struct Node** head, int data) {
+    struct Node* newNode = createNode(data);
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        struct Node* temp = *head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+        newNode->prev = temp;
+    }
+}
+
+// Function to delete a node with a specific value
+void deleteNode(struct Node** head, int value) {
+    if (*head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    struct Node* temp = *head;
+
+    // If the node to be deleted is the head node
+    if (temp != NULL && temp->data == value) {
+        *head = temp->next;
+        if (*head != NULL) {
+            (*head)->prev = NULL;
+        }
+        free(temp);
+        printf("Node with value %d deleted\n", value);
+        return;
+    }
+
+    // Search for the node to be deleted
+    while (temp != NULL && temp->data != value) {
+        temp = temp->next;
+    }
+
+    // If the node was not found
+    if (temp == NULL) {
+        printf("Node with value %d not found\n", value);
+        return;
+    }
+
+    // Node to be deleted is found
+    if (temp->next != NULL) {
+        temp->next->prev = temp->prev;
+    }
+
+    if (temp->prev != NULL) {
+        temp->prev->next = temp->next;
+    }
+
+    free(temp);
+    printf("Node with value %d deleted\n", value);
+}
+
+// Function to display the doubly linked list
+void displayList(struct Node* head) {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d <-> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    struct Node* head = NULL;
+
+    // Inserting elements into the doubly linked list
+    insertEnd(&head, 10);
+    insertEnd(&head, 20);
+    insertEnd(&head, 30);
+    insertEnd(&head, 40);
+
+    // Display the list
+    printf("Doubly Linked List: ");
+    displayList(head);
+
+    // Deleting a node
+    deleteNode(&head, 20);  // Delete node with value 20
+
+    // Display the list after deletion
+    printf("After deletion: ");
+    displayList(head);
+
+    // Try to delete a non-existent node
+    deleteNode(&head, 50);  // Node with value 50 doesn't exist
+
+    return 0;
+}
