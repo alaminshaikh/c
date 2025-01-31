@@ -1,0 +1,13 @@
+#include<stdio.h>
+int main(){
+	int arr[5] = {11,52,3,45,56};
+	int * ptr = &arr[0];
+	int i;
+	for(i = 0; i<5; i++){
+		printf("\nelement is %d",*ptr);
+		ptr++;	
+	}
+
+	
+	return 0;
+}

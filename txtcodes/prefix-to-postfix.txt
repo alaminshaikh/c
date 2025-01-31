@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+// Define the maximum size for the stack
+#define MAX 100
+
+// Stack structure to hold operands
+struct Stack {
+    char arr[MAX];
+    int top;
+};
+
+// Function to initialize the stack
+void initStack(struct Stack* stack) {
+    stack->top = -1;
+}
+
+// Function to push an element onto the stack
+void push(struct Stack* stack, char value) {
+    if (stack->top < MAX - 1) {
+        stack->arr[++stack->top] = value;
+    }
+}
+
+// Function to pop an element from the stack
+char pop(struct Stack* stack) {
+    if (stack->top == -1) {
+        printf("Stack is empty\n");
+        return -1;
+    }
+    return stack->arr[stack->top--];
+}
+
+// Function to check if a character is an operator
+int isOperator(char c) {
+    return (c == '+' || c == '-' || c == '*' || c == '/');
+}
+
+// Function to convert a prefix expression to a postfix expression
+void prefixToPostfix(char* prefix) {
+    struct Stack stack;
+    initStack(&stack);
+
+    int length = strlen(prefix);
+
+    // Traverse the prefix expression from right to left
+    for (int i = length - 1; i >= 0; i--) {
+        char current = prefix[i];
+
+        // If the character is an operand, push it to the stack
+        if (isalnum(current)) {
+            push(&stack, current);
+        }
+        // If the character is an operator
+        else if (isOperator(current)) {
+            // Pop two operands from the stack
+            char op1 = pop(&stack);
+            char op2 = pop(&stack);
+
+            // Form a new postfix expression and push it back to the stack
+            push(&stack, op1);
+            push(&stack, op2);
+            push(&stack, current);
+        }
+    }
+
+    // The final result is the postfix expression
+    printf("Postfix Expression: ");
+    while (stack.top != -1) {
+        printf("%c", pop(&stack));
+    }
+    printf("\n");
+}
+
+int main() {
+    char prefix[100];
+
+    // Input the prefix expression
+    printf("Enter a prefix expression: ");
+    scanf("%s", prefix);
+
+    // Convert the prefix to postfix
+    prefixToPostfix(prefix);
+
+    return 0;
+}
